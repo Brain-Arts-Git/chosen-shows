@@ -34,19 +34,22 @@ def main():
 
     service = build('calendar', 'v3', credentials=creds)
 
-    with open('november_results.csv', 'r') as f:
+    with open('december_results.csv', 'r') as f:
         next(f)
         for line in f:
             data = line.strip('\n').split('\t')
             event_name = data[0]
             venue_name = data[1]
-            start_date = data[3]
-            end_date = data[5]
+            start_date = data[16]
+            end_date = data[17]
             site_link = data[10]
             address = data[11]
-            description = data[13]
+            description = data[14]
+
             # print('start date: ' + start_date)
             # print('end date: ' + end_date)
+            # print(description)
+            # exit()
 
             event = {
               'summary': event_name,
@@ -77,23 +80,9 @@ def main():
               },
             }
 
-            event = service.events().insert(calendarId='brain-arts.org_nts3c1qj8lhbpj1peff8idc0qs@group.calendar.google.com', body=event).execute()
-            print('Event created: %s' % (event.get('htmlLink')))
+            event = service.events().insert(calendarId='brain-arts.org_cs2ruvhpnv1d0cp12isfushun8@group.calendar.google.com', body=event).execute()
+            print('Event created: %s' % (event.get('htmlLink')) + '\n')
 
-
-    # Call the Calendar API
-    # now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    # print('Getting the upcoming 10 events')
-    # events_result = service.events().list(calendarId='primary', timeMin=now,
-    #                                     maxResults=10, singleEvents=True,
-    #                                     orderBy='startTime').execute()
-    # events = events_result.get('items', [])
-
-    # if not events:
-    #     print('No upcoming events found.')
-    # for event in events:
-    #     start = event['start'].get('dateTime', event['start'].get('date'))
-    #     print(start, event['summary'])
 
 if __name__ == '__main__':
     main()
