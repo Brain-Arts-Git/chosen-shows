@@ -1,2 +1,2 @@
-# chosen-shows-scraper
-Brain Arts Chosen Shows Web Scraper
+# chosen-shows
+Brain Arts Chosen Shows Scripts
