@@ -8,8 +8,8 @@ from selenium.webdriver.common.keys import Keys
 driver = webdriver.Chrome()
 
 with open('showlist.csv', 'w') as out:
-	out.write('EVENT NAME\tVENUE NAME\tORGANIZER NAME\tSTART DATE\tSTART TIME\tEND DATE\tEND TIME\tALL DAY EVENT\tCATEGORIES\tEVENT COST\tEVENT WEBSITE\tSHOW MAP LINK?\tSHOW MAP?\tEVENT DESCRIPTION\tDetails\tAttendance\n')
-	with open('november.txt', 'r') as f:
+	out.write('EVENT NAME\tVENUE NAME\tORGANIZER NAME\tSTART DATE\tSTART TIME\tEND DATE\tEND TIME\tALL DAY EVENT\tCATEGORIES\tEVENT COST\tEVENT WEBSITE\tSHOW MAP LINK?\tSHOW MAP?\tEVENT DESCRIPTION\tDetails\tAttendance\tgcal_start\tgcal_stop\n')
+	with open('december.txt', 'r') as f:
 		for line in f:
 			url = line.strip('\n')
 			driver.get(url)
@@ -34,8 +34,25 @@ with open('showlist.csv', 'w') as out:
 				start_date = time_date.split(' at ')[0]
 				end_date = start_date
 				start_time, end_time = time_date.split(' at ')[1].split(' – ')
+				end_time = end_time.split(' ')
+				end_time = end_time[0] + ' ' + end_time[1]
 			except:
-				pass
+				start_time = ''
+				end_time = ''
+
+			# time + date gcal format
+			try:
+				time_date_gcal = driver.find_element_by_class_name('_5xhk').get_attribute("content")
+				print('time and date gcal:')
+				print(time_date_gcal)
+				if 'to' in time_date_gcal:
+					start_date_time_gcal, end_date_time_gcal = time_date_gcal.split(' to ')
+				else:
+					start_date_time_gcal = time_date_gcal
+					end_date_time_gcal = time_date_gcal
+			except:
+				start_date_time_gcal = ''
+				end_date_time_gcal = ''
 
 			# venue name
 			try:
@@ -67,4 +84,4 @@ with open('showlist.csv', 'w') as out:
 			print('\n')
 
 			# write event info
-			out.write('\t'.join([event_name,venue,'',start_date,start_time,end_date,end_time,'','','',url,address,'','',description,'']) + '\n')
+			out.write('\t'.join([event_name,venue,'',start_date,start_time,end_date,end_time,'','','',url,address,'','',description,'',start_date_time_gcal,end_date_time_gcal]) + '\n')
