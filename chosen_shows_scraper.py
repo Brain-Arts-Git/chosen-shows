@@ -9,7 +9,7 @@ driver = webdriver.Chrome()
 
 with open('showlist.csv', 'w') as out:
 	out.write('EVENT NAME\tVENUE NAME\tORGANIZER NAME\tSTART DATE\tSTART TIME\tEND DATE\tEND TIME\tALL DAY EVENT\tCATEGORIES\tEVENT COST\tEVENT WEBSITE\tSHOW MAP LINK?\tSHOW MAP?\tEVENT DESCRIPTION\tDetails\tAttendance\tgcal_start\tgcal_stop\n')
-	with open('december.txt', 'r') as f:
+	with open('event_links.txt', 'r') as f:
 		for line in f:
 			url = line.strip('\n')
 			driver.get(url)
